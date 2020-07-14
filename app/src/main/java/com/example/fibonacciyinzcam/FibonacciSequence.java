@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
     Fibonacci Sequence Generator class
-
     @author Khongor Battogotkh
  */
 class FibonacciSequence {
@@ -23,7 +22,7 @@ class FibonacciSequence {
         fibNum = new ArrayList<>(MAX_SIZE);
 
         //0-th and 1st number of the series;
-        fibNum.add(BigInteger.ZERO);
+        fibNum.add(BigInteger.ONE);
         fibNum.add(BigInteger.ONE);
 
         //Function that generates fibonacci sequence 0 < n <= 1000
@@ -31,7 +30,7 @@ class FibonacciSequence {
     }
 
     private void generateFibNum(){
-        for(int i = 2; i <= MAX_SIZE; i++){
+        for(int i = 2; i < MAX_SIZE - 1; i++){
             fibNum.add(fibNum.get(i-1).add(fibNum.get(i-2)));
         }
     }
