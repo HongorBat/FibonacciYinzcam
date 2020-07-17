@@ -1,43 +1,52 @@
 package com.example.fibonacciyinzcam;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
     Fibonacci Sequence Generator class
     @author Khongor Battogotkh
  */
 class FibonacciSequence {
-    //ArrayList for memoization
+    //Array for memoization
     //Use BigInteger in order to store large numbers
-    private List<BigInteger> fibNum;
+    private BigInteger[] cache;
 
     //Fibonacci number limit as per requirement is 1000
     private int MAX_SIZE = 1000;
 
     //Constructor
     public FibonacciSequence(){
-        //
-        fibNum = new ArrayList<>(MAX_SIZE);
+        cache = new BigInteger[MAX_SIZE + 1];
 
-        //0-th and 1st number of the series;
-        fibNum.add(BigInteger.ONE);
-        fibNum.add(BigInteger.ONE);
-
-        //Function that generates fibonacci sequence 0 < n <= 1000
-        generateFibNum();
-    }
-
-    private void generateFibNum(){
-        for(int i = 2; i < MAX_SIZE - 1; i++){
-            fibNum.add(fibNum.get(i-1).add(fibNum.get(i-2)));
-        }
+        // 0-th and 1st fibonacci number
+        cache[0] = BigInteger.ZERO;
+        cache[1] = BigInteger.ONE;
     }
 
     /**
-     * Returns list of Fibonacci Numbers
-     * @return fibNum
+     *
+     * @param pos - position of the fibonacci number
+     * @return fibonacci number
      */
-    public List<BigInteger> getFibNum(){ return fibNum; }
+    public BigInteger getFib(int pos){
+        //To avoid ArrayOutOfBoundsException
+        if (pos > MAX_SIZE) return null;
+
+        //Check if the number already exists in the cache
+        if(cache[pos] != null){
+            return cache[pos];
+        } else {
+            cache[pos] = getFib(pos-1).add(getFib(pos-2));
+        }
+
+        return cache[pos];
+    }
+
+    /**
+     * @return total number of fibonacci numbers generated
+     */
+    public int getCount(){
+        return cache.length;
+    }
+
 }

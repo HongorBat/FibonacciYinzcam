@@ -25,10 +25,7 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        FibonacciSequence fibonacciSequence = new FibonacciSequence();
-        List<BigInteger> fibNum = fibonacciSequence.getFibNum();
-
-        NumberAdapter numberAdapter = new NumberAdapter(fibNum);
+        NumberAdapter numberAdapter = new NumberAdapter();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 

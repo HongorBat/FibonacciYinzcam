@@ -7,18 +7,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fibonacciyinzcam.databinding.ListItemBinding;
 
 import java.math.BigInteger;
-import java.util.List;
 
+/**
+ * Basic Adapter class extending RecyclerView.Adapter
+ */
 public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder>{
 
-    private List<BigInteger> mData;
+    //Fibonacci Sequence object to generate Fibonacci number
+    private FibonacciSequence fibonacciSequence;
 
-    public NumberAdapter(List<BigInteger> data) {
-        this.mData = data;
+    //Create fibonacciSequence object
+    public NumberAdapter() {
+        fibonacciSequence = new FibonacciSequence();
     }
 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+        //Inflate custom layout
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ListItemBinding binding = ListItemBinding.inflate(layoutInflater, parent, false);
         return new ViewHolder(binding);
@@ -26,14 +31,19 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        BigInteger num = mData.get(position);
-        holder.bind(num);
+        //Generate new fibonacci number
+        BigInteger num = fibonacciSequence.getFib(position+1);
+        if (num != null) {
+            holder.bind(num, position + 1);
+        }
     }
 
+    /**
+     * Returns the total count of numbers to display
+     */
     @Override
     public int getItemCount() {
-        if (mData.isEmpty()) return 0;
-        return mData.size();
+        return fibonacciSequence.getCount()-1;
     }
 
     /**
@@ -42,6 +52,7 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        //View Binding
         private final ListItemBinding binding;
 
         public ViewHolder(ListItemBinding binding) {
@@ -49,14 +60,10 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
             this.binding = binding;
         }
 
-        public void bind(BigInteger num){
+        public void bind(BigInteger num, int pos){
+            binding.positionTextView.setText("Position: " + (pos));
             binding.numberText.setText(num.toString());
         }
     }
 
-
-//    public void setData(List<BigInteger> data){
-//        mData = data;
-//        notifyDataSetChanged();
-//    }
 }
